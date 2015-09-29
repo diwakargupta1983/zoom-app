@@ -1,0 +1,7 @@
+PHIX-24273	||	Individual Last Name overlaps with the plan name on Review cart page if last name is 45 character long
+
+common/common-view/src/main/webapp/theme/default/style/css/style.css
+common/common-view/src/main/webapp/theme_1.7/default/css/appV2-blessed1.css
+common/common-view/src/main/webapp/theme_1.7/default/css/appV2.css
+common/common-view/src/main/webapp/WEB-INF/content/areas/header.jsp
+individual-portal/individual-view/src/main/webapp/WEB-INF/content/areas/1.7/header.jsp
