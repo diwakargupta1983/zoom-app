@@ -1,0 +1,31 @@
+{
+  "name": "customerDetails",
+  "version": "1.0.0",
+  "description": "An application to store and retrieve data about customers",
+  "main": "server.js",
+  "author": "Diwakar Gupta <diwakarwebdesigner@gmail.com>",
+  "dependencies": {
+    "body-parser": "latest",
+    "express": "latest",
+    "method-override": "latest",
+    "mongoose": "latest",
+    "morgan": "latest",
+    "multer": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/diwakargupta1983/zoom-app.git"
+  },
+  "keywords": [
+    "customers",
+    "retrieve",
+    "data",
+    "store",
+    "data"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diwakargupta1983/zoom-app/issues"
+  },
+  "homepage": "https://github.com/diwakargupta1983/zoom-app"
+}
