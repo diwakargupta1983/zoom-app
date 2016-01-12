@@ -1,7 +1,8 @@
 customerDetails.directive('fileModel', ['$parse', function($parse){
-	return {
-		restrict: 'A',
-		link: function(scope, element, attrs){
+	fileModelDirective = {};
+	
+	fileModelDirective.restrict = 'A',
+	fileModelDirective.link = function(scope, element, attrs){
 			var model = $parse(attrs.fileModel);
 			var modelSetter = model.assign;
 			
@@ -11,15 +12,17 @@ customerDetails.directive('fileModel', ['$parse', function($parse){
 				})
 			});
 		}
-	}
+	
+	return fileModelDirective;
 }]);
 
 //Datepicker
 customerDetails.directive('zmDatepickerDob', function(){
-	var directive = {};
-	directive.restirct = 'EA',
-	directive.template = '<p class="input-group"><input type="text" class="form-control" id="dob" placeholder="Date of Birth" ng-model="formData.dob" uib-datepicker-popup="{{format}}" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></p>'
-	directive.controller = ['$scope', function($scope){
+	var zmDatepickerDobDirective = {};
+	
+	zmDatepickerDobDirective.restirct = 'EA',
+	zmDatepickerDobDirective.template = '<p class="input-group"><input type="text" class="form-control" id="dob" placeholder="Date of Birth" ng-model="formData.dob" uib-datepicker-popup="{{format}}" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button></span></p>'
+	zmDatepickerDobDirective.controller = ['$scope', function($scope){
 		$scope.today = function() {
 			$scope.dt = new Date();
 		};
@@ -92,5 +95,5 @@ customerDetails.directive('zmDatepickerDob', function(){
 			return '';
 		};
 	}]
-	return directive;
+	return zmDatepickerDobDirective;
 });

@@ -13,14 +13,24 @@
 	
 	var multer  = require('multer');
 	
+	var fs = require('fs');
+	var Grid = require('gridfs-stream');
+	Grid.mongo = mongoose.mongo;
+	
 	
 	
 
 // configuration =================
 
-	var connection = mongoose.createConnection('mongodb://localhost:27017/details');     // connect to mongoDB database locally
+	 mongoose.connect('mongodb://localhost:27017/details');     // connect to mongoDB database locally
+	 var connection = mongoose.connection;
 	
 	autoIncrement.initialize(connection);
+    var gfs = Grid(connection.db);
+	
+	
+	//var storage = require('gridfs-storage-engine')();
+	
 	var storage = multer.diskStorage({
 		destination: function (req, file, cb) {
 			cb(null, './public/uploads')
@@ -30,7 +40,8 @@
 			cb(null, "ZBR-" + file.originalname)
 		}
 	});
-
+	
+	
 	var upload = multer({ storage: storage });
 
 	app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
@@ -105,11 +116,54 @@ var customerPropertiesSchema = new Schema({
         });
 
     });
-	
+	connection.once('open', function() {
+	console.log('_____open:::::');
 	app.post('/upload', upload.single('file'), function(req, res){
+	
+	// streaming to gridfs
+    //filename to store in mongodb
+	
+	
+	
+    var writestream = gfs.createWriteStream({
+        filename: req.file.originalname,
+        mode: 'w',
+        content_type: req.file.mimetype,
+    });	
+    //fs.createReadStream(req.file.path).pipe(writestream);
+    fs.createReadStream(req.file.path).pipe(writestream);
+
+    writestream.on('close', function (file) {
+        // do something with `file`
+        console.log(file.filename + 'Written To DB');
+    });
+	
+	//write content to file system
+var fs_write_stream = fs.createWriteStream('public/uploads/' + req.file.originalname);
+
+
+
+
 		console.log(req.body);
 		console.log(req.file);
 		res.json({success: true});
+		
+		
+
+
+
+	});
+	
+	app.get('/download', function (req, res){
+		//read from mongodb
+		var readstream = gfs.createReadStream({
+		filename: req.file.originalname
+	});
+	readstream.pipe(fs_write_stream);
+	fs_write_stream.on('close', function () {
+		console.log('file has been written fully!');
+	});
+	});
 	});
 
     // delete a todo
