@@ -12,7 +12,16 @@ customerDetails.controller('mainController', ['$scope', '$http', 'multipartForm'
         .error(function(data) {
             console.log('Error: ' + data);
         });
+
 		
+
+        
+
+
+
+
+
+        
 	
 
     // when submitting the add form, send the text to the node API
