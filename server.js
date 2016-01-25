@@ -53,6 +53,7 @@
 	app.use(methodOverride());
 
 // define schema =================
+	var gridSchema = new Schema({},{ strict: false });
 	var customerPropertiesSchema = new Schema({
 		text : String,
 		phone: Number,
@@ -65,6 +66,8 @@
 
 // define model =================
     var CUSTOMER_PROPERTIES = connection.model('CUSTOMER_PROPERTIES', customerPropertiesSchema, 'customer_properties');
+    var ff = 'fs.files';
+    var GRID = mongoose.model("GRID", gridSchema, ff );
 	
 	customerPropertiesSchema.plugin(autoIncrement.plugin, { 
 		model: 'CUSTOMER_PROPERTIES', 
@@ -88,6 +91,15 @@
                 res.send(err)
 
             res.json(customer_properties); // return all todos in JSON format
+        });
+        
+    });
+    app.get('/upload', function(req, res) {
+        
+        GRID.find(function(err, ff){
+        	if (err)
+                res.send(err)
+            res.json(ff);
         });
     });
 	
@@ -138,7 +150,10 @@
 
 		console.log(req.body);
 		console.log(req.file);
+
 		res.json({success: true});
+
+		
 	});
 		
 	app.get('/file/:id', function(req, res){

@@ -76,7 +76,9 @@
 							<td>{{ customer_property.first_name }} {{ customer_property.last_name }}</td>
 							<td>{{ customer_property.dob | DDMMMYYYY }}</td>
 							<td>{{ customer_property.address }}</td>
-							<td><a href="/file/{{ fs }}" title="">ZBR-{{ customer_property.photoId }}</a></td>
+							<td>
+								<a href="/file/{{ customer_properties_image[$index]._id }}" title="">ZBR-{{ customer_property.photoId }}</a>
+							</td>
 							<td><a href="javascript:void(0);" title="Delete Record" ng-click="deleteTodo(customer_property._id)">Delete</a></td>
 						</tr>
 						<tr ng-if="filteredItems.length === 0" class="bg-danger text-danger">

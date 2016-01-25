@@ -14,7 +14,13 @@ customerDetails.controller('mainController', ['$scope', '$http', 'multipartForm'
         });
 
 		
-
+            $http.get('/upload')
+        .success(function(data) {
+            $scope.customer_properties_image = data;
+        })
+        .error(function(data) {
+            console.log('Error: ' + data);
+        });
         
 
 
@@ -35,6 +41,7 @@ customerDetails.controller('mainController', ['$scope', '$http', 'multipartForm'
             .error(function(data) {
                 console.log('Error: ' + data);
             });
+        
     };
 	
 	$scope.Submit = function(){
