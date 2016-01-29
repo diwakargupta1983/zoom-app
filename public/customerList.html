@@ -1,93 +1,92 @@
-::::::::{{formData}}
-    <div class="container">
+<div class="container">
 
-        <!-- HEADER AND TODO COUNT -->
-        <div class="text-center marginB20">
-			<h2>Customer Details</h2>
-            <h3>Total Records <span class="label label-info">{{ customer_properties.length }}</span></h3>
-        </div>
-		
-		<div class="row marginB20">
-			<div class="col-md-12">
-				<form class="form-inline">
-				  <div class="form-group">
+	<!-- HEADER AND TODO COUNT -->
+	<div class="text-center marginB20">
+		<h2>Customer Details</h2>
+		<h3>Total Records <span class="label label-info">{{ customer_properties.length }}</span></h3>
+	</div>
+	
+	<div class="row marginB20">
+		<div class="col-md-12">
+			<form class="form-inline">
+				<div class="form-group">
 					<label for="searchRecords">Search records</label>
 					<input type="text" class="form-control" id="searchRecords" ng-model="query" />
-				  </div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
-		
-		<!-- FORM TO CREATE TODOS -->
-        <div id="todo-form" class="row marginB20">
-            <div class="col-sm-6 col-md-12 text-center">
-                <form class="bg-success padding10">
-					<legend class="text-left">Enter a new record</legend>
-					<div class="row">
-						<div class="col-md-2">
-							<input type="text" class="form-control" id="phoneNo" placeholder="Phone No." ng-model="formData.phone" />
-						</div>
-						<div class="col-md-2">
-							<input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="formData.first_name" />
-						</div>
-						<div class="col-md-2">
-							<input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="formData.last_name" />
-						</div>
-						<div class="col-md-2">
-							<zm-datepicker-dob></zm-datepicker-dob>
-						</div>
-						<div class="col-md-2">
-							<input type="text" class="form-control" id="address" placeholder="Address" ng-model="formData.address" />
-						</div>
-						<div class="col-md-2">
-							<button type="button" class="btn btn-primary" ng-click="createTodo(); Submit()">Add</button>
+	</div>
+	
+	<!-- FORM TO CREATE TODOS -->
+	<div id="todo-form" class="row marginB20">
+		<div class="col-sm-6 col-md-12 text-center">
+			<form class="bg-success padding10">
+				<legend class="text-left">Enter a new record</legend>
+				<div class="row">
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="phoneNo" placeholder="Phone No." ng-model="formData.phone" />
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="formData.first_name" />
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="formData.last_name" />
+					</div>
+					<div class="col-md-2">
+						<zm-datepicker-dob></zm-datepicker-dob>
+					</div>
+					<div class="col-md-2">
+						<input type="text" class="form-control" id="address" placeholder="Address" ng-model="formData.address" />
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-primary" ng-click="createTodo(); Submit()">Add</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>Upload Image</label>
+							<input type="file" id="customerImage" file-model="formData.file" multiple />
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<label>Upload Image</label>
-								<input type="file" id="customerImage" file-model="formData.file" multiple />
-							</div>
-						</div>
-					</div>
-                </form>
-            </div>
-        </div>
-		
-		<!-- TODO LIST -->
-        <div id="todo-list" class="row">
-            <div class="col-sm-12 col-md-12">
-				
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Phone No.</th>
-							<th>Name</th>
-							<th>Date of Birth</th>
-							<th>Address</th>
-							<th>Photo ID</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="customer_property in filteredItems  = (customer_properties | filter:query)">
-							<td>{{ customer_property.phone }}</td>
-							<td>{{ customer_property.first_name }} {{ customer_property.last_name }}</td>
-							<td>{{ customer_property.dob | DDMMMYYYY }}</td>
-							<td>{{ customer_property.address }}</td>
-							<td>
-								<a href="/file/{{ customer_properties_image[$index]._id }}" title="">ZBR-{{ customer_property.photoId }}</a>
-							</td>
-							<td><a href="javascript:void(0);" title="Delete Record" ng-click="deleteTodo(customer_property._id)">Delete</a></td>
-						</tr>
-						<tr ng-if="filteredItems.length === 0" class="bg-danger text-danger">
-							<td colspan="6" class="text-center">No Results Found</td>
-						</tr>
-					</tbody>
-				</table>
-				
-				<p><a href="#/customer-details" title="Next">Next</a></p>
-            </div>
-        </div>
-    </div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<!-- TODO LIST -->
+	<div id="todo-list" class="row">
+		<div class="col-sm-12 col-md-12">
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Phone No.</th>
+						<th>Name</th>
+						<th>Date of Birth</th>
+						<th>Address</th>
+						<th>Photo ID</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="customer_property in filteredItems  = (customer_properties | filter:query)">
+						<td>{{ customer_property.phone }}</td>
+						<td>{{ customer_property.first_name }} {{ customer_property.last_name }}</td>
+						<td>{{ customer_property.dob | DDMMMYYYY }}</td>
+						<td>{{ customer_property.address }}</td>
+						<td>
+							<a href="/file/{{ customer_properties_image[$index]._id }}" title="" ng-click="openImage()">ZBR-{{ customer_property.photoId }}</a>
+						</td>
+						<td><a href="javascript:void(0);" title="Delete Record" ng-click="deleteTodo(customer_property._id)">Delete</a></td>
+					</tr>
+					<tr ng-if="filteredItems.length === 0" class="bg-danger text-danger">
+						<td colspan="6" class="text-center">No Results Found</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<p><a href="#/customer-details" title="Next">Next</a></p>
+		</div>
+	</div>
+</div>

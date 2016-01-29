@@ -4,7 +4,7 @@ customerDetails.service('multipartForm', ['$http', function($http){
 		for(var key in data)
 			fd.append(key, data[key]);
 			
-		$http.post(uploadUrl, fd, {
+		return $http.post(uploadUrl, fd, {
 			transformRequest: angular.identity,
 			headers: { 'Content-Type': undefined }
 		});
