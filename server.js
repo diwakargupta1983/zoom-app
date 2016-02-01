@@ -205,6 +205,22 @@ app.delete('/api/customer_properties/:customer_properties_id', function(req, res
 	});
 });
 
+app.delete('/upload/:_id', function(req, res) {
+	GRID.remove({
+		_id: req.params._id
+	}, function(err, files) {
+		if (err)
+			res.send(err);
+
+		// get and return all the todos after you create another
+		GRID.find(function(err, files) {
+			if (err)
+				res.send(err)
+			res.json(files);
+		});
+	});
+});
+
 
 // application -------------------------------------------------------------
 app.get('*', function(req, res) {

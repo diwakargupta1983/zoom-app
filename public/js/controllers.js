@@ -58,7 +58,21 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
                 console.log('Error: ' + data);
             });
     };
+
+    $scope.deleteFile = function(id) {
+        $http.delete('/upload/' + id)
+            .success(function(data) {
+                $scope.customer_properties_image = data;
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
 }]);
+
+customerDetails.controller('TabsCtrl', function ($scope, $window) {
+    $scope.data = {};
+});
 
 customerDetails.controller('viewChange', function($scope) {
     $scope.pageClass = "detailsPage";
