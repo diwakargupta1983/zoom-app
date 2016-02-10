@@ -1,3 +1,4 @@
+{{formData}}
 <div class="container">
 	<div class="counter">
 		Total <br />Records
@@ -25,19 +26,10 @@
 									<input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="formData.last_name" />
 								</div>
 								<div class="col-md-2">
-									<p class="input-group">
-									{{altInputFormats}}
-						              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-						              <span class="input-group-btn">
-						                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-						              </span>
-						            </p>
-								</div>
-								<div class="col-md-2">
 									<input type="text" class="form-control" id="address" placeholder="Address" ng-model="formData.address" />
 								</div>
 								<div class="col-md-2">
-									<button type="button" class="btn btn-primary" ng-click="createTodo(); Submit()">Add</button>
+									<button type="button" class="btn btn-primary" ng-click="createTodo(formData.dobYear, formData.dobMonth, formData.dobDay); Submit()">Add</button>
 								</div>
 							</div>
 							<div class="row">
@@ -45,6 +37,18 @@
 									<div class="form-group">
 										<label>Upload Image</label>
 										<input type="file" id="customerImage" file-model="formData.file" multiple />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label>Date</label>
+										<input type="text" ng-model="formData.dobDay" />
+										<select ng-model="formData.dobMonth" ng-change="changeMonth(dobMonth)" ng-options="month.value as month.name for month in months">
+											<option value="">Month</option>
+										</select>{{dobMonth}}
+										<input type="text" ng-model="formData.dobYear" />
 									</div>
 								</div>
 							</div>
@@ -86,7 +90,7 @@
 							<td>{{ customer_property.dob | DDMMMYYYY }}</td>
 							<td>{{ customer_property.address }}</td>
 							<td>
-								<a href="javascript:void(0);" title="" ng-click="open('lg', customer_properties_image[$index]._id, customer_property)">ZBR-{{ customer_property.photoId }}</a>
+								<a href="javascript:void(0);" title="" ng-click="open('lg', customer_properties_image[$index]._id)">ZBR-{{ customer_property.photoId }}</a>
 							</td>
 							<td><a href="javascript:void(0);" title="Delete Record" ng-click="deleteTodo(customer_property._id); deleteFile(customer_properties_image[$index]._id)">Delete</a></td>
 						</tr>
@@ -103,7 +107,7 @@
 
 <script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
-        <h3 class="modal-title">{{Title!}}</h3>
+        <h3 class="modal-title">{{Title}}</h3>
     </div>
     <div class="modal-body">
     	<img ng-src={{ImageSrc}} alt="{{ImageDesc}}" />

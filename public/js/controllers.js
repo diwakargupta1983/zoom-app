@@ -26,8 +26,9 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
 
 
     // when submitting the add form, send the text to the node API
-    $scope.createTodo = function() {
-
+    $scope.createTodo = function(dobYear, dobMonth, dobDay) {
+        var utcDob = new Date(Date.UTC(dobYear, dobMonth - 1, dobDay));
+        $scope.formData.dob = utcDob;
         $http.post('/api/customer_properties', $scope.formData)
             .success(function(data) {
                 $scope.formData = {}; // clear the form so our user is ready to enter another
@@ -87,6 +88,21 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
         $scope.popup1.opened = true;
     };
 
+
+    $scope.months = [
+      {value: 1, name: "january (01)"},
+      {value: 2, name: "February (02)"},
+      {value: 3, name: "March (03)"},
+      {value: 4, name: "April (04)"},
+      {value: 5, name: "May (05)"},
+      {value: 6, name: "June (06)"},
+      {value: 7, name: "July (07)"},
+      {value: 8, name: "August (08)"},
+      {value: 9, name: "September (09)"},
+      {value: 10, name: "October (10)"},
+      {value: 11, name: "November (11)"},
+      {value: 12, name: "December (12)"}
+    ];
 
     /* UI Dialog */
      $scope.items = ['item1', 'item2', 'item3'];

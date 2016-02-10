@@ -116,7 +116,6 @@ app.post('/api/customer_properties', function(req, res) {
 
 	// create a todo, information comes from AJAX request from Angular
 	CUSTOMER_PROPERTIES.create({
-		text: req.body.text,
 		phone: req.body.phone,
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
