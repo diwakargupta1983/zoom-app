@@ -1,101 +1,113 @@
-{{formData}}
-<div class="container">
-	<div class="counter">
-		Total <br />Records
-		<br />
-		<span>{{ customer_properties.length }}</span>
-	</div>
-	<div class="contentWrapper">
-		<uib-tabset>
-			<uib-tab heading="Add new record">
-				<div id="todo-form" class="row marginB20">
-					<div class="col-sm-6 col-md-12 text-center">
-						<form class="customerDetailsForm padding10">
-							<div class="row">
-								<div class="col-md-2">
-									<input type="text" class="form-control" id="phoneNo" placeholder="Phone No." ng-model="formData.phone" />
-								</div>
-								<div class="col-md-2">
-									<input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="formData.first_name" />
-								</div>
-								<div class="col-md-2">
-									<input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="formData.last_name" />
-								</div>
-								<div class="col-md-2">
-									<input type="text" class="form-control" id="address" placeholder="Address" ng-model="formData.address" />
-								</div>
-								<div class="col-md-2">
-									<button type="button" class="btn btn-primary" ng-click="createTodo(formData.dobYear, formData.dobMonth, formData.dobDay); Submit()">Add</button>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Upload Image</label>
-										<input type="file" id="customerImage" file-model="formData.file" multiple />
+<!-- {{formData}} -->
+<div class="contentWrapper">
+	<div id="todo-form" class="row marginB20">
+		<div class="col-sm-6 col-md-12">
+			<div class="widget">
+				<div class="widget-header">
+					<h3><i class="fa fa-edit"></i> Add new record</h3>
+				</div>
+				<div class="widget-content">
+					<form class="customerDetailsForm padding10 form-horizontal">
+						<div class="row form-group">
+							<div class="col-md-6">
+								<div class="row">
+									<label for="phoneNo" class="col-md-3 control-label">Phone Number</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" id="phoneNo" ng-model="formData.phone" />
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<div class="form-group">
-										<label>Date</label>
-										<input type="text" ng-model="formData.dobDay" />
-										<select ng-model="formData.dobMonth" ng-change="changeMonth(dobMonth)" ng-options="month.value as month.name for month in months">
-											<option value="">Month</option>
-										</select>{{dobMonth}}
-										<input type="text" ng-model="formData.dobYear" />
+							<div class="col-md-6">
+								<div class="row">
+									<label for="customerName" class="col-md-3 control-label">Name</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" id="customerName" ng-model="formData.name" />
 									</div>
 								</div>
 							</div>
-						</form>
-					</div>
-				</div>
-			</uib-tab>
-			<uib-tab heading="Search record">
-				<div class="row marginB20">
-					<div class="col-md-12">
-						<form class="form-inline">
-							<div class="form-group">
-								<label for="searchRecords">Search records</label>
-								<input type="text" class="form-control" id="searchRecords" ng-model="formData.query" />
+						</div>
+						<div class="row form-group">
+							<div class="col-md-6">
+								<div class="row">
+									<label for="address" class="col-md-3 control-label">Address</label>
+									<div class="col-md-9">
+										<input type="text" class="form-control" id="address" ng-model="formData.address" />
+									</div>
+								</div>
 							</div>
-						</form>
-					</div>
+							<div class="col-md-6">
+								<div class="row">
+									<label for="customerName" class="col-md-3 control-label">Date of Birth</label>
+									<div class="col-md-9">
+										<div class="row">
+											<div class="col-md-3">
+												<input type="text" ng-model="formData.dobDay" class="form-control" />
+											</div>
+											<div class="col-md-5">
+												<select ng-model="formData.dobMonth" ng-change="changeMonth(dobMonth)" ng-options="month.value as month.name for month in months" class="form-control">
+													<option value="">Month</option>
+												</select>
+											</div>
+											<div class="col-md-4">
+												<input type="text" ng-model="formData.dobYear" class="form-control" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row form-group">
+							<div class="col-md-6">
+								<div class="row">
+									<label for="customerPic" class="col-md-3 control-label">Upload Photo</label>
+									<div class="col-md-9">
+										<input type="file" id="customerPic" file-model="formData.file" multiple class="form-control" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<button type="button" class="btn btn-primary pull-right" ng-click="createTodo(formData.dobYear, formData.dobMonth, formData.dobDay); Submit()">Submit</button>
+							</div>
+						</div>
+					</form>
 				</div>
-			</uib-tab>
-		</uib-tabset>
-
-		<div id="todo-list" class="row">
-			<div class="col-sm-12 col-md-12">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Phone No.</th>
-							<th>Name</th>
-							<th>Date of Birth</th>
-							<th>Address</th>
-							<th>Photo ID</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="customer_property in filteredItems  = (customer_properties | filter:formData.query)">
-							<td>{{ customer_property.phone }}</td>
-							<td>{{ customer_property.first_name }} {{ customer_property.last_name }}</td>
-							<td>{{ customer_property.dob | DDMMMYYYY }}</td>
-							<td>{{ customer_property.address }}</td>
-							<td>
-								<a href="javascript:void(0);" title="" ng-click="open('lg', customer_properties_image[$index]._id)">ZBR-{{ customer_property.photoId }}</a>
-							</td>
-							<td><a href="javascript:void(0);" title="Delete Record" ng-click="deleteTodo(customer_property._id); deleteFile(customer_properties_image[$index]._id)">Delete</a></td>
-						</tr>
-						<tr ng-if="filteredItems.length === 0" class="bg-danger text-danger">
-							<td colspan="6" class="text-center">No Results Found</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
+		</div>
+	</div>
+
+	<div id="todo-list" class="row">
+		<div class="col-sm-12 col-md-12">
+			<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Phone No.</th>
+						<th>Name</th>
+						<th>Date of Birth</th>
+						<th>Address</th>
+						<th>Photo ID</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="customer_property in filteredItems  = (customer_properties | filter:formData.query)">
+						<td>{{$index}}</td>
+						<td>{{ customer_property.phone }}</td>
+						<td>{{ customer_property.name }}</td>
+						<td>{{ customer_property.dob | DDMMMYYYY }}</td>
+						<td>{{ customer_property.address }}</td>
+						<td>
+							<a href="javascript:void(0);" title="" ng-click="open('lg', customer_properties_image[$index]._id)">ZBR-{{ customer_property.photoId }}</a>
+						</td>
+						<td><a href="javascript:void(0);" title="Delete Record" ng-click="deleteTodo(customer_property._id); deleteFile(customer_properties_image[$index]._id)">Delete</a></td>
+					</tr>
+					<tr ng-if="filteredItems.length === 0" class="bg-danger text-danger">
+						<td colspan="6" class="text-center">No Results Found</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>

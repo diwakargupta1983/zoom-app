@@ -64,8 +64,7 @@ var gridSchema = new Schema({}, {
 var customerPropertiesSchema = new Schema({
 	text: String,
 	phone: Number,
-	first_name: String,
-	last_name: String,
+	name: String,
 	dob: String,
 	address: String,
 	photoId: Number
@@ -117,8 +116,7 @@ app.post('/api/customer_properties', function(req, res) {
 	// create a todo, information comes from AJAX request from Angular
 	CUSTOMER_PROPERTIES.create({
 		phone: req.body.phone,
-		first_name: req.body.first_name,
-		last_name: req.body.last_name,
+		name: req.body.name,
 		dob: req.body.dob,
 		address: req.body.address
 	}, function(err, customer_properties) {
