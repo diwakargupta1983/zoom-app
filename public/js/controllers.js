@@ -1,6 +1,7 @@
 var customerDetails = angular.module('customerDetails', ['ui.bootstrap', 'ngRoute', 'ngAnimate']);
 
 customerDetails.controller('mainController', ['$scope', '$http', '$location', 'multipartForm', '$uibModal', function($scope, $http, $location, multipartForm, $uibModal) {
+    
     $scope.pageClass = "homePage";
     $scope.formData = {};
 
@@ -13,8 +14,6 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
         .error(function(data) {
             console.log('Error: ' + data);
         });
-
-
     $http.get('/upload')
         .success(function(data) {
             $scope.customer_properties_image = data;
@@ -25,7 +24,7 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
 
 
 
-    // when submitting the add form, send the text to the node API
+    // when submitting the add form, send the text to the node API and upload the file
     $scope.createTodo = function(dobYear, dobMonth, dobDay) {
         var utcDob = new Date(Date.UTC(dobYear, dobMonth - 1, dobDay));
         $scope.formData.dob = utcDob;
@@ -51,7 +50,7 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
             });
     }
 
-    // delete a todo after checking it
+    // delete a customer data and related file after checking it
     $scope.deleteTodo = function(id) {
         $http.delete('/api/customer_properties/' + id)
             .success(function(data) {
@@ -81,7 +80,12 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
         formatYear: 'yy',
         startingDay: 1
     };
-    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd MMM yyyy', 'shortDate'];
+    $scope.formats = [
+      'dd-MMMM-yyyy', 
+      'yyyy/MM/dd', 
+      'dd MMM yyyy', 
+      'shortDate'
+    ];
     $scope.format = $scope.formats[2];
     $scope.altInputFormats = ['M!/d!/yyyy'];
     $scope.open1 = function() {
@@ -105,45 +109,91 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
     ];
 
     /* UI Dialog */
-     $scope.items = ['item1', 'item2', 'item3'];
+    $scope.items = ['item1', 'item2', 'item3'];
     $scope.animationsEnabled = true;
-
-  $scope.open = function (size, imgSrc, imgDesc) {
-
-    var modalInstance = $uibModal.open({
-      animation: $scope.animationsEnabled,
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
-      size: size,
-      resolve: {
-        items: function () {
-          return $scope.items;
-        },
-        imageSrcToUse: function () {
-                return "http://localhost:8000/file/" + imgSrc;      // Hardcoded server path
-            },
-        imagesDescription: function(){
+    $scope.open = function (size, imgSrc, imgDesc) {
+      var modalInstance = $uibModal.open({
+        animation: $scope.animationsEnabled,
+        templateUrl: 'myModalContent.html',
+        controller: 'ModalInstanceCtrl',
+        size: size,
+        resolve: {
+          items: function () {
+            return $scope.items;
+          },
+          imageSrcToUse: function () {
+            return "http://localhost:8000/file/" + imgSrc;      // Hardcoded server path
+          },
+          imagesDescription: function(){
             return imgDesc;
+          }
         }
-      }
-    });
+      });
 
-    modalInstance.result.then(function (selectedItem) {
-      $scope.selected = selectedItem;
-    }, function () {
-      console.log('Modal dismissed at: ' + new Date());
-    });
-  };
+      modalInstance.result.then(function (selectedItem) {
+        $scope.selected = selectedItem;
+      }, function () {
+        console.log('Modal dismissed at: ' + new Date());
+      });
+    };
+}]);
+
+/* Controller for left navigation */
+customerDetails.controller('navCtrl', ['$scope', '$location', function ($scope, $location) {
+
+    $scope.navLinks = [{
+        LinkText: 'Dashboard',
+        url: '',
+        iconClass: 'fa-dashboard'
+    }, {
+        LinkText: 'Add Customer',
+        url: 'add-customer',
+        iconClass: 'fa-user-plus'
+    }, {
+        LinkText: 'Search Customers',
+        url: 'search-customer',
+        iconClass: 'fa-search'
+    }, {
+        LinkText: 'Customer Details',
+        url: 'customer-details',
+        iconClass: 'fa-edit'
+    }, {
+        LinkText: 'UI Elements',
+        url: 'aasd',
+        iconClass: 'fa-list-alt'
+    }, {
+        LinkText: 'Widgets',
+        url: 'qweqwe',
+        iconClass: 'fa-puzzle-piece'
+    }, {
+        LinkText: 'Components',
+        url: 'dgdg',
+        iconClass: 'fa-gears'
+    }, {
+        LinkText: 'Tables',
+        url: 'rwer',
+        iconClass: 'fa-table'
+    }, {
+        LinkText: 'Typography',
+        url: 'vbnn',
+        iconClass: 'fa-font'
+    }];
+
+    $scope.navClass = function (page) {
+        var currentRoute = $location.path().substring(1) || '';
+        return page === currentRoute ? 'active' : '';
+    };   
 
 }]);
 
+
+
+
 customerDetails.controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, items, imageSrcToUse, imagesDescription) {
 
-    
-                $scope.ImageSrc = imageSrcToUse;
-                $scope.ImageDesc = imagesDescription;
+  $scope.ImageSrc = imageSrcToUse;
+  $scope.ImageDesc = imagesDescription;
             
-
   $scope.items = items;
   $scope.selected = {
     item: $scope.items[0]
@@ -158,16 +208,12 @@ customerDetails.controller('ModalInstanceCtrl', function ($scope, $uibModalInsta
   };
 });
 
-customerDetails.controller('TabsCtrl', function ($scope, $window) {
-    $scope.data = {};
-});
 
 customerDetails.controller('viewChange', function($scope) {
     $scope.pageClass = "detailsPage";
     $scope.message = "This is new page";
 });
 
-/* Date Picker */
 
 
 
@@ -176,19 +222,32 @@ customerDetails.config(['$routeProvider',
     function($routeProvider) {
         $routeProvider.
         when('/', {
-            templateUrl: '/customerList.html',
+            title: "Dashboard",
+            subtitle: "the first priority information",
+            templateUrl: '/dashboard.html',
+            controller: 'mainController'
+        }).
+        when('/add-customer', {
+            title: "Customer Details",
+            subtitle: "add details about cutomer",
+            templateUrl: '/addCustomer.html',
             controller: 'mainController'
         }).
         when('/customer-details', {
+            title: "Customer Details",
+            subtitle: "customer details heading",
             templateUrl: '/customerDetails.html',
             controller: 'viewChange'
-        }).
-        when('/file', {
-            templateUrl: '',
-            controller: 'mainController'
         }).
         otherwise({
             redirectTo: '/'
         });
     }
 ]);
+
+customerDetails.run(['$rootScope', '$route', function($rootScope, $route) {
+    $rootScope.$on('$routeChangeSuccess', function() {
+        $rootScope.title = $route.current.title;
+        $rootScope.subtitle = $route.current.subtitle;
+    });
+}]);

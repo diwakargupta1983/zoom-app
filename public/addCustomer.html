@@ -6,15 +6,11 @@
 		<span>{{ customer_properties.length }}</span>
 	</div>
 	<div class="contentWrapper">
-		<div class="text-center marginB20">
-			<h2>Customer Details</h2>
-		</div>
 		<uib-tabset>
-			<uib-tab heading="Add">
+			<uib-tab heading="Add new record">
 				<div id="todo-form" class="row marginB20">
 					<div class="col-sm-6 col-md-12 text-center">
 						<form class="customerDetailsForm padding10">
-							<legend class="text-left">Enter a new record</legend>
 							<div class="row">
 								<div class="col-md-2">
 									<input type="text" class="form-control" id="phoneNo" placeholder="Phone No." ng-model="formData.phone" />
@@ -56,7 +52,7 @@
 					</div>
 				</div>
 			</uib-tab>
-			<uib-tab heading="Search">
+			<uib-tab heading="Search record">
 				<div class="row marginB20">
 					<div class="col-md-12">
 						<form class="form-inline">
@@ -99,7 +95,6 @@
 						</tr>
 					</tbody>
 				</table>
-				<p><a href="#/customer-details" title="Next">Next</a></p>
 			</div>
 		</div>
 	</div>
