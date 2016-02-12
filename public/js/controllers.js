@@ -1,4 +1,4 @@
-var customerDetails = angular.module('customerDetails', ['ui.bootstrap', 'ngRoute', 'ngAnimate', 'datatables']);
+var customerDetails = angular.module('customerDetails', ['ui.bootstrap', 'ngRoute', 'ngAnimate', 'datatables', 'ngResource']);
 
 customerDetails.controller('mainController', ['$scope', '$http', '$location', 'multipartForm', '$uibModal', function($scope, $http, $location, multipartForm, $uibModal) {
     
@@ -137,6 +137,24 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
       });
     };
 }]);
+
+
+/* Controller for Datatable */
+customerDetails.controller('AngularWayWithOptionsCtrl', AngularWayWithOptionsCtrl);
+
+function AngularWayWithOptionsCtrl($resource, DTOptionsBuilder, DTColumnDefBuilder) {
+    var vm = this;
+    vm.data = [];
+    vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withDisplayLength(2);
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+       // DTColumnDefBuilder.newColumnDef(1).notVisible(),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+    $resource('/api/customer_properties').query().$promise.then(function(data) {
+        vm.data = data;
+    });
+}
 
 /* Controller for left navigation */
 customerDetails.controller('navCtrl', ['$scope', '$location', function ($scope, $location) {

@@ -78,8 +78,8 @@
 	</div>
 
 	<div id="todo-list" class="row">
-		<div class="col-sm-12 col-md-12">
-			<table class="table table-hover table-striped">
+		<div class="col-sm-12 col-md-12" ng-controller="AngularWayWithOptionsCtrl as customerD">
+			<table datatable="ng" dt-options="customerD.dtOptions" dt-column-defs="customerD.dtColumnDefs" class="table table-hover table-striped">
 				<thead>
 					<tr>
 						<th>#</th>
