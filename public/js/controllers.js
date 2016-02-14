@@ -1,4 +1,4 @@
-var customerDetails = angular.module('customerDetails', ['ui.bootstrap', 'ngRoute', 'ngAnimate', 'datatables', 'ngResource']);
+var customerDetails = angular.module('customerDetails', ['ui.bootstrap', 'ngRoute', 'ngAnimate', 'datatables', 'ngResource', 'datatables.bootstrap', 'datatables.tabletools']);
 
 customerDetails.controller('mainController', ['$scope', '$http', '$location', 'multipartForm', '$uibModal', function($scope, $http, $location, multipartForm, $uibModal) {
     
@@ -142,10 +142,10 @@ customerDetails.controller('mainController', ['$scope', '$http', '$location', 'm
 /* Controller for Datatable */
 customerDetails.controller('AngularWayWithOptionsCtrl', AngularWayWithOptionsCtrl);
 
-function AngularWayWithOptionsCtrl($resource, DTOptionsBuilder, DTColumnDefBuilder) {
+function AngularWayWithOptionsCtrl($resource, DTOptionsBuilder, DTColumnDefBuilder, DTDefaultOptions) {
     var vm = this;
     vm.data = [];
-    vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withDisplayLength(2);
+    vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withDisplayLength(2).withBootstrap().withDOM('tipr').withOption('aaSorting', [[0, 'desc']]).withOption('aoColumns', [{ "sWidth": "9%" }, { "sWidth": "10%" }, { "sWidth": "21%" }, { "sWidth": "14%" }, { "sWidth": "20%" }, { "sWidth": "12%" }, { "sWidth": "14%" }]);
     vm.dtColumnDefs = [
         DTColumnDefBuilder.newColumnDef(0),
        // DTColumnDefBuilder.newColumnDef(1).notVisible(),

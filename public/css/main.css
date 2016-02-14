@@ -15240,7 +15240,8 @@ ul.main-menu > li > a,
 }
 .secondary-stat .secondary-stat-item .data {
   float: left;
-  margin-bottom: 0;
+  margin-bottom: 15px;
+  width: 100%;
 }
 .secondary-stat .secondary-stat-item .inlinesparkline {
   display: inline-block;
@@ -15260,6 +15261,9 @@ ul.main-menu > li > a,
 }
 .secondary-stat #secondary-stat-item3 {
   background-color: #D36B19;
+}
+.secondary-stat #secondary-stat-item4 {
+  background-color: #db9024;
 }
 
 /* sparkline tooltip fix */
@@ -15319,14 +15323,14 @@ ul.main-menu > li > a,
   font-style: normal;
 }
 .big-number-stat .col-left {
-  float: left;
   margin-right: 10px;
-  line-height: 1.8;
+  line-height: 1;
+  font-weight: 200;
+  display: block;
 }
 .big-number-stat .col-right {
-  float: right;
   position: relative;
-  top: 1.5em;
+  top: 0.5em;
 }
 @media screen and (max-width: 480px) {
   .big-number-stat .col-right {
@@ -15612,6 +15616,8 @@ fieldset {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
 }
 
 /* button */
@@ -17775,13 +17781,13 @@ table.dataTable thead > tr > th {
   padding-left: 8px;
   padding-right: 15px;
 }
-table.dataTable thead .sorting,
+/*table.dataTable thead .sorting,
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting_asc_disabled,
 table.dataTable thead .sorting_desc_disabled {
   background: none;
-}
+}*/
 table.dataTable thead .row-filter input {
   width: 100%;
 }
