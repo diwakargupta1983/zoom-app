@@ -2,12 +2,26 @@
 var express = require('express');
 var app = express(); // create our app w/ express
 
+var port     = process.env.PORT || 8000;
+
 var mongoose = require('mongoose'); // mongoose for mongodb
+
+var passport = require('passport');
+var flash    = require('connect-flash');
+var path     = require('path'); //Add path into our required list
+
+
 var Schema = mongoose.Schema;
 var mongo = require('mongodb');
 var multer = require('multer');
 var morgan = require('morgan'); // log requests to the console (express4)
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser'); // pull information from HTML POST (express4)
+var session      = require('express-session');
+
+var configDB = require('./config/database.js');
+
+
 var methodOverride = require('method-override');
 var fs = require('fs');
 var Grid = require('gridfs-stream');
@@ -22,7 +36,8 @@ Grid.mongo = mongoose.mongo;
 
 // configuration =================
 
-mongoose.connect('mongodb://localhost:27017/details'); // connect to mongoDB database locally
+mongoose.connect(configDB.url); // connect to mongoDB database locally
+require('./config/passport')(passport); // pass passport for configuration
 var connection = mongoose.connection;
 
 autoIncrement.initialize(connection);
@@ -48,6 +63,7 @@ var upload = multer({
 
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({
 	'extended': 'true'
 })); // parse application/x-www-form-urlencoded
@@ -56,6 +72,15 @@ app.use(bodyParser.json({
 	type: 'application/vnd.api+json'
 })); // parse application/vnd.api+json as json
 app.use(methodOverride());
+
+
+
+// required for passport
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
 
 // define schema =================
 var gridSchema = new Schema({}, {
@@ -220,10 +245,11 @@ app.delete('/upload/:_id', function(req, res) {
 
 
 // application -------------------------------------------------------------
-app.get('*', function(req, res) {
-	res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
+require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+/*app.get('*', function(req, res) {
+	res.sendfile('./public/views/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
-
+*/
 // listen (start app with node server.js) ======================================
-app.listen(8000);
+app.listen(port);
 console.log("App listening on port 8000");
