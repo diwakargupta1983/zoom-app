@@ -28,7 +28,8 @@ var Grid = require('gridfs-stream');
 var autoIncrement = require('mongoose-auto-increment');
 
 var GridStore = mongo.GridStore;
-var ObjectID = mongo.ObjectID;
+//var ObjectID = mongo.ObjectID;	commented to work on windows 8.1, 32 bit
+var ObjectID = require('sails-mongo').mongo.objectId;
 
 Grid.mongo = mongoose.mongo;
 
@@ -193,7 +194,8 @@ app.get('/file/:id', function(req, res) {
 	var outPutFromDBFile = __dirname + '/public/uploads/FromDB_' + id + '.png';
 	var writeStream = fs.createWriteStream(outPutFromDBFile);
 	var BSON = require('mongodb').BSONParse;
-	var o_id = ObjectID.createFromHexString(id);
+	//var o_id = ObjectID.createFromHexString(id); commented to work on windows 8.1, 32 bit
+	var o_id = ObjectID(id);
 	var gridStore = new GridStore(connection.db, o_id, 'r');
 	gridStore.open(function(err, gridStore) {
 		if (err) {

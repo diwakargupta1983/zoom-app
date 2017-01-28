@@ -17,9 +17,9 @@
 	    item: $scope.items[0]
 	  };
 
-	  $scope.ok = function () {
-	    $uibModalInstance.close($scope.selected.item);
-	  };
+	  $scope.downloadFile = function(downloadPath) { 
+    	window.open(downloadPath, '_blank', '');  
+}
 
 	  $scope.cancel = function () {
 	    $uibModalInstance.dismiss('cancel');
